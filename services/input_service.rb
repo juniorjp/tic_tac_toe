@@ -1,3 +1,5 @@
+require 'stringio'
+
 class InputService
 
   attr_accessor :spot
@@ -7,10 +9,10 @@ class InputService
   end
 
   def get_valid_spot!
-    @spot = gets.chomp
+    @spot = $stdin.gets.chomp
     until check_valid_spot!
       puts "Please, type a valid location\n"
-      @spot = gets.chomp
+      @spot = $stdin.gets.chomp
     end
     @spot = @spot.to_i
     @spot
