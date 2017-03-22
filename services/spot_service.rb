@@ -1,6 +1,6 @@
 require 'stringio'
 
-class InputService
+class SpotService
 
   attr_accessor :spot
   attr_accessor :board

@@ -1,4 +1,4 @@
-require_relative 'services/input_service'
+require_relative 'services/spot_service'
 require_relative 'helper/string_helper'
 require 'colorize'
 
@@ -25,7 +25,7 @@ class Game
   end
 
   def get_human_spot
-    spot = InputService.new(@board).get_valid_spot!
+    spot = SpotService.new(@board).get_valid_spot!
     @board[spot] = @hum
   end
 
