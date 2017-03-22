@@ -1,3 +1,6 @@
+require_relative 'services/input_service'
+require_relative 'helper/string_helper'
+
 class Game
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
@@ -21,15 +24,8 @@ class Game
   end
 
   def get_human_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if @board[spot] != "X" && @board[spot] != "O"
-        @board[spot] = @hum
-      else
-        spot = nil
-      end
-    end
+    spot = InputService.new(@board).get_valid_spot!
+    @board[spot] = @hum
   end
 
   def eval_board
