@@ -10,7 +10,7 @@ class Game
 
   def start_game
     # start by printing the board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
+    print_board()
     puts "Enter [0-8]:"
     # loop through until the game was won or tied
     until game_is_over(@board) || tie(@board)
@@ -18,7 +18,7 @@ class Game
       if !game_is_over(@board) && !tie(@board)
         eval_board
       end
-      puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
+      print_board()
     end
     puts "Game over"
   end
@@ -92,6 +92,12 @@ class Game
 
   def tie(b)
     b.all? { |s| s == "X" || s == "O" }
+  end
+
+  private
+
+  def print_board
+    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
   end
 
 end
