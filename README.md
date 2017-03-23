@@ -1,3 +1,3 @@
-# run 'bundle install'
+# install gems: 'bundle install'
 
 # execute game: 'ruby main.rb'
