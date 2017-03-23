@@ -1,4 +1,5 @@
 require_relative 'services/spot_service'
+require_relative 'services/game_mode_service'
 require_relative 'helper/string_helper'
 require 'colorize'
 
@@ -10,7 +11,9 @@ class Game
   end
 
   def start_game
-    # start by printing the board
+    # start by asking for the game mode
+    choose_mode()
+    # print the board
     print_board()
     puts "Enter [0-8]:"
     # loop through until the game was won or tied
@@ -36,7 +39,7 @@ class Game
         spot = 4
         @board[spot] = @com
       else
-        spot = get_best_move(@board, @com)
+        spot = get_next_move(@board, @com)
         if @board[spot] != "X" && @board[spot] != "O"
           @board[spot] = @com
         else
@@ -46,14 +49,17 @@ class Game
     end
   end
 
-  def get_best_move(board, next_player, depth = 0, best_score = {})
-    available_spaces = []
-    best_move = nil
-    board.each do |s|
-      if s != "X" && s != "O"
-        available_spaces << s
-      end
+  def get_next_move(board, com)
+    if @mode == 1 #hard
+      get_best_move(board, com)
+    else
+      get_random_move()
     end
+  end
+
+  def get_best_move(board, next_player, depth = 0, best_score = {})
+    best_move = nil
+    available_spaces = get_available_spaces
     available_spaces.each do |as|
       board[as.to_i] = @com
       if game_is_over(board)
@@ -74,9 +80,13 @@ class Game
     if best_move
       return best_move
     else
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
+      get_random_space(available_spaces)
     end
+  end
+
+  def get_random_move()
+    available_spaces = get_available_spaces
+    get_random_space(available_spaces)
   end
 
   def game_is_over(b)
@@ -97,8 +107,27 @@ class Game
 
   private
 
+  def get_available_spaces
+    available_spaces = []
+    @board.each do |s|
+      if s != "X" && s != "O"
+        available_spaces << s
+      end
+    end
+    available_spaces
+  end
+
+  def get_random_space(available_spaces)
+    n = rand(0..available_spaces.count)
+    return available_spaces[n].to_i
+  end
+
   def print_board
     puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n".colorize(:light_blue)
+  end
+
+  def choose_mode
+    @mode = GameModeService.new.get_valid_mode!
   end
 
 end
